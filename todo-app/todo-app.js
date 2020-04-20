@@ -1,29 +1,13 @@
-const todos = [
-  {
-    text: 'walk the dog',
-    completed: true,
-  },
-  {
-    text: 'Eat burger',
-    completed: false,
-  },
-  {
-    text: 'Play football',
-    completed: true,
-  },
-  {
-    text: 'call anki',
-    completed: false,
-  },
-  {
-    text: 'Make a sticker',
-    completed: true,
-  },
-]
+let todos = []
 
 const filters = {
   searchText: '',
   hideCompleted: false,
+}
+// Check for existing saved data
+const todosJSON = localStorage.getItem('todos')
+if (todosJSON !== null) {
+  todos = JSON.parse(todosJSON)
 }
 
 const renderTodos = function (todos, filters) {
@@ -61,12 +45,11 @@ document.querySelector('#search-todo').addEventListener('input', function (e) {
 
 document.querySelector('#new-todo').addEventListener('submit', function (e) {
   e.preventDefault()
-
   todos.push({
     text: e.target.elements.newTodo.value,
     completed: false,
   })
-
+  localStorage.setItem('todos', JSON.stringify(todos))
   e.target.elements.newTodo.value = ''
   renderTodos(todos, filters)
 })
